@@ -42,6 +42,13 @@ class TaskListComponent extends Component
             $tasks = $tasks->where('status', (int) $status);
         }
 
+        if ($search = $this->search) {
+            $tasks = $tasks->where(function (Builder $query) use ($search) {
+                $query->where('name', "LIKE", "%{$search}%")
+                    ->orWhere('description', "LIKE", "%{$search}%");
+            });
+        }
+
         return view('livewire.task-list-component', [
             "tasks" => $tasks
                 ->latest('id')

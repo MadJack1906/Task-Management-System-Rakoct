@@ -18,9 +18,14 @@
                             class="bg-blue-900 px-4 py-1 text-white rounded-lg hover:bg-white hover:text-blue-900 border border-transparent hover:border-blue-900">
                             Create
                         </button>
-                    </div>
 
-                    <div class="">
+                    </div>
+                    <div class="flex justify-end w-full gap-x-4">
+                        <label for="search" class="flex flex-col">
+                            <p>Search</p>
+                            <input type="text" wire:model.live.debounce="search" placeholder="Search">
+                        </label>
+
                         <label for="filter_status" class="">
                             <p>Filter Status</p>
                             <select
