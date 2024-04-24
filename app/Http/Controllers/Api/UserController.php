@@ -9,7 +9,6 @@ use App\Http\Resources\Api\UserLoginResource;
 use App\Http\Utils\Response;
 use App\Services\UserService;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
@@ -49,7 +48,7 @@ class UserController extends Controller
     {
         $credentials = $request->validated();
 
-        if (! $token = Auth::attempt($credentials)) {
+        if (! $token = Auth::guard('api')->attempt($credentials)) {
             return Response::unauthorized(["message" => "Unauthorized"]);
         }
 
@@ -63,7 +62,7 @@ class UserController extends Controller
      */
     public function logout(): JsonResponse
     {
-        Auth::logout();
+        Auth::guard('api')->logout();
 
         return Response::success([
             "message" => "Logged out successfully",
@@ -77,7 +76,7 @@ class UserController extends Controller
      */
     public function refresh(): JsonResponse
     {
-        return Response::success($this->respondWithToken(Auth::refresh()));
+        return Response::success($this->respondWithToken(Auth::guard('api')->refresh()));
     }
 
     /**
@@ -91,7 +90,7 @@ class UserController extends Controller
         return [
             "bearer_token" => $token,
             "token_type" => "bearer",
-            "expires_in" => Auth::factory()->getTTL() * 60,
+            "expires_in" => Auth::guard('api')->factory()->getTTL() * 60,
         ];
     }
 }
