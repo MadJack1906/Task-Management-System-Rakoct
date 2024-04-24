@@ -11,6 +11,7 @@ Route::group(['prefix' => '/users'], static function () {
     Route::middleware(['auth:api'])->group(function () {
         Route::get('/me', [UserController::class, 'me'])->name('api.users.auth.me');
         Route::post('/logout', [UserController::class, 'logout'])->name('api.users.auth.logout');
+        Route::patch('/{user}/profile/update', [UserController::class, 'updateProfile'])->name('api.users.auth.profile.update');
         Route::get('/refresh', [UserController::class, 'refresh'])->name('api.users.auth.refresh');
     });
 });

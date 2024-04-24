@@ -3,27 +3,30 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Api\RegisterUserRequest;
 use App\Http\Requests\Api\UserLoginRequest;
+use App\Http\Requests\Api\UserProfileRequest;
+use App\Http\Requests\Api\UserRegisterRequest;
 use App\Http\Resources\Api\UserLoginResource;
 use App\Http\Utils\Response;
+use App\Models\User;
 use App\Services\UserService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 
 class UserController extends Controller
 {
     public function __construct(
         readonly private UserService $service,
-    ) { }
+    ) {}
 
     /**
      * Controller method to register/create users for the application
      *
-     * @param RegisterUserRequest $request
+     * @param UserRegisterRequest $request
      * @return JsonResponse
      */
-    public function register(RegisterUserRequest $request): JsonResponse
+    public function register(UserRegisterRequest $request): JsonResponse
     {
         $inputs = $request->validated();
 
@@ -77,6 +80,23 @@ class UserController extends Controller
     public function refresh(): JsonResponse
     {
         return Response::success($this->respondWithToken(Auth::guard('api')->refresh()));
+    }
+
+    /**
+     * Updates the profile of the user
+     *
+     * @param UserProfileRequest $request
+     * @return UserLoginResource
+     */
+    public function updateProfile(UserProfileRequest $request, User $user): UserLoginResource
+    {
+        Gate::authorize('updateProfile', [User::class, $user]);
+
+        $input = $request->validated();
+
+        $user = $this->service->updateProfile($input, $user);
+
+        return new UserLoginResource($user);
     }
 
     /**

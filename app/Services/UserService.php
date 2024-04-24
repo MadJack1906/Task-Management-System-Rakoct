@@ -8,7 +8,7 @@ class UserService
 {
 
     /**
-     * Creates the user info
+     * Creates a user based on data provided
      *
      * @param array $userInfo
      * @return User
@@ -16,5 +16,20 @@ class UserService
     public function register(array $userInfo): User
     {
         return User::create($userInfo);
+    }
+
+    /**
+     * Updates the user info
+     *
+     * @param array $userInfo
+     * @param User $user
+     * @return User
+     */
+
+    public function updateProfile(array $userInfo, User $user): User
+    {
+        $user->update($userInfo);
+
+        return $user;
     }
 }
