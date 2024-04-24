@@ -18,9 +18,11 @@ class User extends Authenticatable implements JWTSubject
      * @var array<int, string>
      */
     protected $fillable = [
-        'name',
+        'first_name',
+        'last_name',
         'email',
         'password',
+        'birthday',
     ];
 
     /**
@@ -44,6 +46,14 @@ class User extends Authenticatable implements JWTSubject
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    /**
+     * This method will return the full name of the user
+     */
+    public function getNameAttribute() : string
+    {
+        return "{$this->first_name} {$this->last_name}" ?? "";
     }
 
     public function getJWTIdentifier()
