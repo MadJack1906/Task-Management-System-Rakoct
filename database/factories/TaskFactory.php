@@ -25,7 +25,7 @@ class TaskFactory extends Factory
             'due_date' => fake()->date,
             'description' => fake()->paragraph,
             'user_id' => User::first()->id,
-            'status' => $statuses[rand(0, count($statuses) - 1)],
+            'status' => rand(0, count($statuses) - 1),
         ];
     }
 }

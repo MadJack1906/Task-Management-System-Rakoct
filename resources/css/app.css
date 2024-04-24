@@ -1,3 +1,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.button__primary {
+    @apply bg-blue-900 px-4 py-1 text-white rounded-lg hover:bg-white hover:text-blue-900 border border-transparent hover:border-blue-900;
+}

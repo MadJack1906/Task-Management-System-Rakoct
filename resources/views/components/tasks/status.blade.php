@@ -10,5 +10,5 @@
     }
 @endphp
 <div class="{{ $status }} w-fit mx-auto px-2 py-1 rounded tracking-wide">
-    <p class="text-xs">{{ $text }}</p>
+    <p class="">{{ $text }}</p>
 </div>

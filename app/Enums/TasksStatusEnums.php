@@ -11,9 +11,9 @@ class TasksStatusEnums
     public static function getStatuses(): array
     {
         return [
-            0 => self::STATUS_DONE,
-            1 => self::STATUS_IN_PROGRESS,
-            2 => self::STATUS_TODO,
+            self::STATUS_DONE => "Done",
+            self::STATUS_IN_PROGRESS => "In Progress",
+            self::STATUS_TODO => "Todo",
         ];
     }
 
