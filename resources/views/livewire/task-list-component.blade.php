@@ -21,7 +21,7 @@
                         </button>
                     </div>
 
-                    <table class="w-full table-auto">
+                    <table class="w-full table-fixed">
                         <thead>
                             <tr>
                                 <th class="text-start pl-2 my-4">Name</th>
@@ -46,16 +46,25 @@
                                         />
                                     </td>
                                     <td>
-                                        <div class="flex justify-center">
-                                            <button class="">Delete</button>
+                                        <div class="flex justify-center gap-x-4">
+                                            <button
+                                                wire:click="openPopup(false, {{ $task->id }})">
+                                                Edit
+                                            </button>
+
+                                            <button wire:click="delete({{ $task->id }})"
+                                                class="text-red-500">Delete</button>
                                         </div>
                                     </td>
                                 </tr>
                             @endforeach
                         </tbody>
                     </table>
+                    <div class="">
+                        {{ $tasks->links() }}
+                    </div>
 
-                    @include('components.tasks.form', ['isVisible' => $is_form_modal_visible])
+                    @include('components.tasks.form', ['isVisible' => $is_form_modal_visible, 'isCreate' => $is_create])
                 </div>
             </div>
         </div>
