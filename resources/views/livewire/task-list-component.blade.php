@@ -11,7 +11,6 @@
                 <div class="p-6 text-gray-900 flex flex-col gap-y-4">
 
 
-
                     <div class="flex justify-between items-center">
                         <p class="font-bold text-xl">Tasks</p>
                         <button
@@ -19,6 +18,20 @@
                             class="bg-blue-900 px-4 py-1 text-white rounded-lg hover:bg-white hover:text-blue-900 border border-transparent hover:border-blue-900">
                             Create
                         </button>
+                    </div>
+
+                    <div class="">
+                        <label for="filter_status" class="">
+                            <p>Filter Status</p>
+                            <select
+                                wire:model.live="filter_status"
+                                name="filter_status" id="filter_status">
+                                <option value="">---</option>
+                                @foreach(\App\Enums\TasksStatusEnums::getStatuses() as $key => $status)
+                                    <option value="{{ $key }}" >{{ $status }}</option>
+                                @endforeach
+                            </select>
+                        </label>
                     </div>
 
                     <table class="w-full table-fixed">

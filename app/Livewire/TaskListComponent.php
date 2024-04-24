@@ -3,6 +3,7 @@
 namespace App\Livewire;
 
 use App\Models\Task;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -28,13 +29,23 @@ class TaskListComponent extends Component
 
     public $is_form_modal_visible = false;
 
+    public $filter_status;
+
+    public $search;
+
     public function render()
     {
         $user = Auth::user();
-        $tasks = $user->tasks()->latest('id')->paginate(5);
+        $tasks = $user->tasks();
+
+        if ($status = $this->filter_status) {
+            $tasks = $tasks->where('status', (int) $status);
+        }
 
         return view('livewire.task-list-component', [
             "tasks" => $tasks
+                ->latest('id')
+                ->paginate(5)
         ]);
     }
 
