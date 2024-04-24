@@ -42,9 +42,15 @@
                     <table class="w-full table-fixed">
                         <thead>
                             <tr>
-                                <th class="text-start pl-2 my-4">Name</th>
-                                <th class="">Deadline</th>
-                                <th class="">Status</th>
+                                <th class="text-start pl-2 my-4">
+                                    <p wire:click="sort('name')">Name</p>
+                                </th>
+                                <th class="">
+                                    <p wire:click="sort('due_date')">Deadline</p>
+                                </th>
+                                <th class="">
+                                    <p wire:click="sort('status')">Status</p>
+                                </th>
                                 <th class="">Actions</th>
                             </tr>
                         </thead>

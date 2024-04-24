@@ -33,6 +33,9 @@ class TaskListComponent extends Component
 
     public $search;
 
+    public $sortField = null;
+    public $sortDirection = "DESC";
+
     public function render()
     {
         $user = Auth::user();
@@ -51,9 +54,15 @@ class TaskListComponent extends Component
 
         return view('livewire.task-list-component', [
             "tasks" => $tasks
-                ->latest('id')
+                ->orderBy($this->sortField ?? "id", $this->sortDirection)
                 ->paginate(5)
         ]);
+    }
+
+    public function sort($field)
+    {
+        $this->sortField = $field;
+        $this->sortDirection = $this->sortDirection === "DESC" ? "ASC" : "DESC";
     }
 
     public function openPopup($isCreate, $id = null)
