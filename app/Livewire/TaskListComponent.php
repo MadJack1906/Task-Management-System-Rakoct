@@ -5,9 +5,9 @@ namespace App\Livewire;
 use App\Models\Task;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 use Livewire\Component;
 use Livewire\WithPagination;
-use Tymon\JWTAuth\Http\Parser\AuthHeaders;
 
 class TaskListComponent extends Component
 {
@@ -115,20 +115,31 @@ class TaskListComponent extends Component
             $task = $task->user()->associate(Auth::user());
             $task->save();
         } else {
-            $this->task->update([
-                'name' => $this->name,
-                'description' => $this->description,
-                'due_date' => $this->due_date,
-                'status' => $this->status,
-            ]);
+            if (Gate::check('update', [Task::class, $this->task])) {
+                $this->task->update([
+                    'name' => $this->name,
+                    'description' => $this->description,
+                    'due_date' => $this->due_date,
+                    'status' => $this->status,
+                ]);
+            } else {
+                session()->flash("message", "You don't have the permission to update this task");
+            }
         }
-
+        session()->flash("message", "Success");
         $this->closePopup();
     }
 
     public function delete($id)
     {
         $task = Task::find($id);
-        $task->delete();
+
+        if (Gate::check('delete', $task)) {
+            $task->delete();
+            session()->flash("message", "Success");
+        } else {
+            session()->flash("message", "You don't have the permission to delete this task");
+        }
+
     }
 }

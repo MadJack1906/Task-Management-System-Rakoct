@@ -10,6 +10,13 @@
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900 flex flex-col gap-y-4">
 
+                    @session("message")
+                        <div class="w-full bg-blue-50">
+                            <p class="px-4 py-2">
+                                {{ session()->get("message") }}
+                            </p>
+                        </div>
+                    @endsession
 
                     <div class="flex justify-between items-center">
                         <p class="font-bold text-xl">Tasks</p>
